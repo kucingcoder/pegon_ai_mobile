@@ -18,6 +18,8 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const UPGRADE = _Paths.UPGRADE;
   static const PAY = _Paths.PAY;
+  static const PAYMENT_HISTORY = _Paths.PAYMENT_HISTORY;
+  static const ACTIVITY = _Paths.ACTIVITY;
 }
 
 abstract class _Paths {
@@ -37,4 +39,6 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const UPGRADE = '/upgrade';
   static const PAY = '/pay';
+  static const PAYMENT_HISTORY = '/payment-history';
+  static const ACTIVITY = '/activity';
 }

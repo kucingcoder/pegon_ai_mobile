@@ -191,6 +191,56 @@ class SettingsView extends GetView<SettingsController> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed('/activity');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 4,
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                backgroundColor: Variabels.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(36),
+                                ),
+                              ),
+                              child: Text(
+                                'Activities',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed('/payment-history');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 4,
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                backgroundColor: Variabels.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(36),
+                                ),
+                              ),
+                              child: Text(
+                                'Payments',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
