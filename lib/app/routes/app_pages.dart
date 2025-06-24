@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/activity/bindings/activity_binding.dart';
 import '../modules/activity/views/activity_view.dart';
+import '../modules/big_data/bindings/big_data_binding.dart';
+import '../modules/big_data/views/big_data_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -16,6 +18,8 @@ import '../modules/payment_history/bindings/payment_history_binding.dart';
 import '../modules/payment_history/views/payment_history_view.dart';
 import '../modules/photo/bindings/photo_binding.dart';
 import '../modules/photo/views/photo_view.dart';
+import '../modules/plugins/bindings/plugins_binding.dart';
+import '../modules/plugins/views/plugins_view.dart';
 import '../modules/read_history/bindings/read_history_binding.dart';
 import '../modules/read_history/views/read_history_view.dart';
 import '../modules/realtime/bindings/realtime_binding.dart';
@@ -116,6 +120,16 @@ class AppPages {
       name: _Paths.ACTIVITY,
       page: () => const ActivityView(),
       binding: ActivityBinding(),
+    ),
+    GetPage(
+      name: _Paths.BIG_DATA,
+      page: () => const BigDataView(),
+      binding: BigDataBinding(),
+    ),
+    GetPage(
+      name: _Paths.PLUGINS,
+      page: () => const PluginsView(),
+      binding: PluginsBinding(),
     ),
   ];
 }

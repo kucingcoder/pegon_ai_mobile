@@ -61,6 +61,7 @@ flutter:
     - assets/images/google.webp
     - assets/images/avatar_boy.webp
     - assets/images/avatar_girl.webp
+    - assets/images/pattern.png
   fonts:
     - family: Nunito
       fonts:

@@ -1,120 +1,129 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../../data/variabels.dart';
 import '../controllers/dashboard_controller.dart';
 
+class _FeatureData {
+  final String title;
+  final IconData icon;
+  final Color color;
+  final int id;
+
+  _FeatureData(this.title, this.icon, this.color, this.id);
+}
+
 class DashboardView extends GetView<DashboardController> {
-  const DashboardView({super.key});
+  DashboardView({super.key});
+
+  final List<_FeatureData> features = [
+    _FeatureData("Text Transliterate", Icons.translate, Colors.green, 2),
+    _FeatureData("Pair Plugins", Icons.extension, Colors.purple, 6),
+    _FeatureData("Video Tutorials", Icons.play_circle_fill, Colors.pink, 3),
+    _FeatureData("Big Data", Icons.bar_chart, Colors.blue, 5),
+  ];
+
+  void onTabTapped(int index) {
+    if (menuItems[index].route == '/realtime' &&
+        controller.profile.value?.name != 'Pro') {
+      Get.toNamed('/upgrade');
+      return;
+    }
+    Get.toNamed(menuItems[index].route);
+  }
+
+  Widget _buildCard(_FeatureData data) {
+    return GestureDetector(
+      onTap: () => onTabTapped(data.id),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: data.color,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(data.icon, color: Colors.white, size: 24),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  data.title,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 0;
-
-    void onTabTapped(int index) {
-      currentIndex = index;
-      if (menuItems[index].route == '/realtime' &&
-          controller.profile.value?.name != 'Pro') {
-        Get.toNamed('/upgrade');
-        return;
-      }
-      Get.toNamed(menuItems[index].route);
-    }
-
     return GlobalLoaderOverlay(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          toolbarHeight: 0,
-          backgroundColor: Variabels.orange,
-          elevation: 0,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Variabels.orange,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white,
-          currentIndex: currentIndex,
-          onTap: onTabTapped,
-          type: BottomNavigationBarType.fixed,
-          items:
-              menuItems
-                  .map(
-                    (item) => BottomNavigationBarItem(
-                      icon: Icon(item.icon),
-                      label: item.text,
-                    ),
-                  )
-                  .toList(),
-        ),
+        appBar: AppBar(backgroundColor: Variabels.orange, toolbarHeight: 20),
         floatingActionButton: Obx(() {
-          return Align(
-            alignment: Alignment.bottomRight,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  heroTag: 'refresh',
-                  onPressed: () async {
-                    Get.offAllNamed('/dashboard');
-                  },
-                  backgroundColor: Variabels.orange,
-                  child: const Icon(Icons.refresh),
-                ),
-                const SizedBox(height: 8),
-                if (controller.profile.value?.name != 'Pro')
-                  FloatingActionButton.extended(
-                    heroTag: 'upgrade',
-                    onPressed: () {
-                      Get.toNamed('/upgrade');
-                    },
-                    backgroundColor: Variabels.orange,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    label: Row(
-                      children: [
-                        Icon(Icons.workspace_premium, color: Colors.white),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Upgrade',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 4,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Text(
-                            'PRO',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                      ],
+          if (controller.profile.value?.name != 'Pro') {
+            return FloatingActionButton.extended(
+              heroTag: 'upgrade',
+              onPressed: () {
+                Get.toNamed('/upgrade');
+              },
+              backgroundColor: Variabels.orange,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              label: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.workspace_premium, color: Colors.white),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Upgrade',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
-              ],
-            ),
-          );
+                  const SizedBox(width: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 4,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Text(
+                      'PRO',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox.shrink(); // untuk kondisi name == 'Pro'
+          }
         }),
         body: DoubleBackToCloseApp(
           snackBar: SnackBar(
             backgroundColor: Variabels.orange.withAlpha(150),
-            content: Text('Tap back again to leave'),
+            content: const Text('Tap back again to leave'),
           ),
           child: SafeArea(
             child: Obx(() {
@@ -122,50 +131,30 @@ class DashboardView extends GetView<DashboardController> {
                 onRefresh: () async {
                   Get.offAllNamed('/dashboard');
                 },
-                child: Column(
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Variabels.orange,
-                        borderRadius: const BorderRadius.vertical(
-                          bottom: Radius.circular(36),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 18,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            onTabTapped(4);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            color: Variabels.orange,
+                            padding: const EdgeInsets.fromLTRB(24, 0, 24, 150),
+                            child: Row(
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.profile.value?.name ??
-                                          'Nama Lengkap',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white,
-                                      ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white.withAlpha(150),
+                                      width: 4,
                                     ),
-                                    Text(
-                                      controller.profile.value?.id ?? '-',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Spacer(),
-                                GestureDetector(
-                                  onTap: () => Get.toNamed('/settings'),
+                                  ),
                                   child: Container(
                                     width: 70,
                                     height: 70,
@@ -173,163 +162,238 @@ class DashboardView extends GetView<DashboardController> {
                                       shape: BoxShape.circle,
                                       border: Border.all(
                                         color: Colors.white,
-                                        width: 4.0,
+                                        width: 4,
                                       ),
                                     ),
                                     child: CircleAvatar(
-                                      radius: 36,
                                       backgroundImage:
                                           Image.asset(
                                             controller.profile.value?.avatar ??
                                                 'assets/images/avatar_boy.webp',
                                           ).image,
-                                      backgroundColor: Colors.grey[300],
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.profile.value?.name ??
+                                          'Full Name',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      controller
+                                              .profile
+                                              .value
+                                              ?.expired
+                                              .capitalize ??
+                                          'Has No Expiration Date',
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(36),
+                                  ),
+                                  child: Text(
+                                    controller
+                                            .profile
+                                            .value
+                                            ?.category
+                                            .capitalize ??
+                                        'Free',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Variabels.orange,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 24),
-                            SizedBox(
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          spreadRadius: 3,
-                                          blurRadius: 5,
-                                          offset: Offset(3, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    padding: const EdgeInsets.all(16),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.calendar_month,
-                                          size: 24,
-                                          color: Variabels.orange,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Container(
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          const BorderRadius.horizontal(
-                                            left: Radius.circular(8),
-                                            right: Radius.circular(32),
-                                          ),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          spreadRadius: 3,
-                                          blurRadius: 5,
-                                          offset: Offset(3, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    padding: const EdgeInsets.all(16),
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.workspace_premium, size: 24),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          controller.profile.value?.category ??
-                                              'free',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+                        Positioned(
+                          bottom: -80,
+                          left: 16,
+                          right: 16,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () => onTabTapped(0),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 24,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.camera_alt,
+                                            size: 64,
+                                            color: Variabels.orange,
+                                          ),
+                                          const Text(
+                                            'Realtime',
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          const Text(
+                                            'Point camera to\ntransliterate instantly',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () => onTabTapped(1),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    elevation: 4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 24,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Icon(
+                                            Icons.image,
+                                            size: 64,
+                                            color: Colors.blue,
+                                          ),
+                                          Text(
+                                            'Image',
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            'Upload or take photo to\ntransliterate',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children:
+                            features.map((data) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 0),
+                                child: _buildCard(data),
+                              );
+                            }).toList(),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 28,
-                        vertical: 18,
+                        horizontal: 24,
+                        vertical: 20,
                       ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'History',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      child: Text(
+                        'History',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 28),
-                        child: Obx(() {
-                          if (controller.histories.isEmpty &&
-                              !controller.isLoading.value) {
-                            return SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.5,
-                                child: const Center(
-                                  child: Text("No history available."),
-                                ),
-                              ),
-                            );
-                          }
 
-                          return GridView.builder(
-                            itemCount: controller.histories.length + 1,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
-                                  childAspectRatio: 2 / 3.1,
-                                ),
-                            itemBuilder: (context, index) {
-                              if (index < controller.histories.length) {
-                                final history = controller.histories[index];
-                                return HistoryCard(
-                                  history: history,
-                                  onDelete:
-                                      () =>
-                                          controller.deleteHistory(history.id),
-                                );
-                              } else {
-                                return controller.isLoading.value
-                                    ? const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    )
-                                    : const SizedBox();
-                              }
-                            },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Obx(() {
+                        if (controller.histories.isEmpty &&
+                            !controller.isLoading.value) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: const Center(
+                              child: Text("No history available."),
+                            ),
                           );
-                        }),
-                      ),
+                        }
+
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.histories.length + 1,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                                childAspectRatio: 2 / 3.1,
+                              ),
+                          itemBuilder: (context, index) {
+                            if (index < controller.histories.length) {
+                              final history = controller.histories[index];
+                              return HistoryCard(
+                                history: history,
+                                onDelete:
+                                    () => controller.deleteHistory(history.id),
+                              );
+                            } else {
+                              return controller.isLoading.value
+                                  ? const Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  )
+                                  : const SizedBox();
+                            }
+                          },
+                        );
+                      }),
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               );
@@ -355,6 +419,8 @@ final List<MenuItem> menuItems = [
   MenuItem(icon: Icons.text_fields, text: 'Text', route: '/text'),
   MenuItem(icon: Icons.video_library, text: 'Tutorials', route: '/tutorials'),
   MenuItem(icon: Icons.tune, text: 'Settings', route: '/settings'),
+  MenuItem(icon: Icons.history, text: 'History', route: '/big-data'),
+  MenuItem(icon: Icons.workspace_premium, text: 'Plugins', route: '/plugins'),
 ];
 
 class HistoryCard extends StatelessWidget {

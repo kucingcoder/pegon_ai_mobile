@@ -15,18 +15,16 @@ class History {
 }
 
 class Profile {
-  final String id;
   final String name;
-  final String sex;
   final String avatar;
   final String category;
+  final String expired;
 
   Profile({
-    required this.id,
     required this.name,
-    required this.sex,
     required this.avatar,
     required this.category,
+    required this.expired,
   });
 }
 
@@ -76,11 +74,10 @@ class DashboardController extends GetxController {
         }
 
         profile.value = Profile(
-          id: data['id'],
           name: data['name'],
-          sex: data['sex'],
           avatar: avatar,
           category: data['category'],
+          expired: data['expired'],
         );
 
         storage.write('category', data['category']);
@@ -94,7 +91,7 @@ class DashboardController extends GetxController {
     } on DioException catch (e) {
       _showSnackbar("Error", _dioErrorMessage(e), Colors.red);
     } catch (e) {
-      _showSnackbar("Error", "Terjadi kesalahan tak terduga", Colors.red);
+      _showSnackbar("Error", "Unexpected error occurred", Colors.red);
     }
   }
 
