@@ -98,7 +98,7 @@ class RegisterController extends GetxController {
       }
 
       final response = await dio.post(
-        '/api/user/login-with-google',
+        '/api/user/continue-with-google',
         options: Options(headers: {'Device': Variabels.device}),
         data: {"token_id": tokenId},
       );
