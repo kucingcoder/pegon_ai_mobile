@@ -25,6 +25,7 @@ dependencies:
   webview_flutter: ^4.13.0
   ultralytics_yolo: ^0.1.14
   camera: ^0.11.1
+  qr_code_scanner_plus: ^2.0.10+1
   loader_overlay: ^5.0.0
   device_info_plus: ^11.4.0
   flutter_native_splash: ^2.4.6

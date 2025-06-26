@@ -27,7 +27,13 @@ class DashboardView extends GetView<DashboardController> {
 
   void onTabTapped(int index) {
     if (menuItems[index].route == '/realtime' &&
-        controller.profile.value?.name != 'Pro') {
+        controller.profile.value?.category != 'pro') {
+      Get.toNamed('/upgrade');
+      return;
+    }
+
+    if (menuItems[index].route == '/plugins' &&
+        controller.profile.value?.category != 'pro') {
       Get.toNamed('/upgrade');
       return;
     }

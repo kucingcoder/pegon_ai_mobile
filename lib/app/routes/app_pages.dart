@@ -128,7 +128,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PLUGINS,
-      page: () => const PluginsView(),
+      page: () => PluginsView(),
       binding: PluginsBinding(),
     ),
   ];

@@ -74,7 +74,10 @@ class DashboardController extends GetxController {
         }
 
         profile.value = Profile(
-          name: data['name'],
+          name:
+              (data['name'] as String).length > 16
+                  ? data['name'].substring(0, 16) + '...'
+                  : data['name'],
           avatar: avatar,
           category: data['category'],
           expired: data['expired'],
