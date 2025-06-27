@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import '../../../data/variabels.dart';
 import '../controllers/dashboard_controller.dart';
 
@@ -75,71 +76,73 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return GlobalLoaderOverlay(
-      child: Scaffold(
-        appBar: AppBar(backgroundColor: Variabels.orange, toolbarHeight: 20),
-        floatingActionButton: Obx(() {
-          if (controller.profile.value?.category != 'pro') {
-            return FloatingActionButton.extended(
-              heroTag: 'upgrade',
-              onPressed: () {
-                Get.toNamed('/upgrade');
-              },
-              backgroundColor: Variabels.orange,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-              ),
-              label: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.workspace_premium, color: Colors.white),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Upgrade',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
+      child: Obx(() {
+        final isPro = controller.profile.value?.category == 'pro';
+
+        return Scaffold(
+          appBar: AppBar(backgroundColor: Variabels.orange, toolbarHeight: 20),
+
+          floatingActionButton:
+              isPro
+                  ? const SizedBox.shrink()
+                  : FloatingActionButton.extended(
+                    heroTag: 'upgrade',
+                    onPressed: () {
+                      Get.toNamed('/upgrade');
+                    },
+                    backgroundColor: Variabels.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.workspace_premium, color: Colors.white),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Upgrade',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Text(
+                            'PRO',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: const Text(
-                      'PRO',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }),
-        body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            backgroundColor: Variabels.orange.withAlpha(150),
-            content: const Text('Tap back again to leave'),
-          ),
-          child: SafeArea(
-            child: Obx(() {
-              return RefreshIndicator(
+
+          body: DoubleBackToCloseApp(
+            snackBar: SnackBar(
+              backgroundColor: Variabels.orange.withAlpha(150),
+              content: const Text('Tap back again to leave'),
+            ),
+            child: SafeArea(
+              child: RefreshIndicator(
                 onRefresh: () async {
                   Get.offAllNamed('/dashboard');
                 },
                 child: ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
+                    // ⬇ Header dan Shortcut Box seperti aslinya
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
@@ -327,6 +330,7 @@ class DashboardView extends GetView<DashboardController> {
                       ],
                     ),
                     const SizedBox(height: 100),
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
@@ -339,6 +343,7 @@ class DashboardView extends GetView<DashboardController> {
                             }).toList(),
                       ),
                     ),
+
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 24,
@@ -358,11 +363,13 @@ class DashboardView extends GetView<DashboardController> {
                       child: Obx(() {
                         if (controller.histories.isEmpty &&
                             !controller.isLoading.value) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            child: const Center(
-                              child: Text("No history available."),
-                            ),
+                          return Column(
+                            children: [
+                              const Center(
+                                child: Text("No history available."),
+                              ),
+                              const SizedBox(height: 80),
+                            ],
                           );
                         }
 
@@ -402,11 +409,16 @@ class DashboardView extends GetView<DashboardController> {
                     const SizedBox(height: 20),
                   ],
                 ),
-              );
-            }),
+              ),
+            ),
           ),
-        ),
-      ),
+          bottomNavigationBar: Obx(() {
+            return controller.isPro.value
+                ? const SizedBox.shrink()
+                : const ReusableAdBannerWidget();
+          }),
+        );
+      }),
     );
   }
 }

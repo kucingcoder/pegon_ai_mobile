@@ -31,6 +31,7 @@ class Profile {
 class DashboardController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
 
   var histories = <History>[].obs;
   var profile = Rx<Profile?>(null);
@@ -84,6 +85,7 @@ class DashboardController extends GetxController {
         );
 
         storage.write('category', data['category']);
+        isPro.value = storage.read('category') == 'pro';
       } else {
         _showSnackbar(
           "Failed",
