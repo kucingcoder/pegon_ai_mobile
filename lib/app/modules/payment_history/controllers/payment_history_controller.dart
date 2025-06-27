@@ -21,6 +21,7 @@ class Payment {
 class PaymentHistoryController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
 
   var payments = <Payment>[].obs;
 
@@ -54,6 +55,7 @@ class PaymentHistoryController extends GetxController {
 
     isLoading.value = true;
     try {
+      isPro.value = storage.read('category') == 'pro';
       final response = await dio.get(
         '/api/payment/history',
         queryParameters: {'page': currentPage.value},

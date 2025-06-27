@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 
 import '../controllers/photo_controller.dart';
@@ -86,6 +87,11 @@ class PhotoView extends GetView<PhotoController> {
               ),
             ],
           );
+        }),
+        bottomNavigationBar: Obx(() {
+          return controller.isPro.value
+              ? const SizedBox.shrink()
+              : const ReusableAdBannerWidget();
         }),
       ),
     );

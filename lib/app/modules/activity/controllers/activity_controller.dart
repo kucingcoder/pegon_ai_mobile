@@ -14,6 +14,7 @@ class Activity {
 class ActivityController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
 
   var activities = <Activity>[].obs;
 
@@ -47,6 +48,7 @@ class ActivityController extends GetxController {
 
     isLoading.value = true;
     try {
+      isPro.value = storage.read('category') == 'pro';
       final response = await dio.get(
         '/api/user/activity',
         queryParameters: {'page': currentPage.value},

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 import '../controllers/text_controller.dart';
 
@@ -32,6 +33,14 @@ class TextView extends GetView<TextController> {
               readOnly: false,
             ),
           ),
+          controller.isPro.value
+              ? const SizedBox.shrink()
+              : Column(
+                children: [
+                  const ReusableAdBannerWidget(),
+                  const SizedBox(height: 8),
+                ],
+              ),
           Expanded(
             child: LanguageCard(
               language: 'Pegon',
@@ -42,6 +51,11 @@ class TextView extends GetView<TextController> {
           ),
         ],
       ),
+      bottomNavigationBar: Obx(() {
+        return controller.isPro.value
+            ? const SizedBox.shrink()
+            : const ReusableAdBannerWidget();
+      }),
     );
   }
 }

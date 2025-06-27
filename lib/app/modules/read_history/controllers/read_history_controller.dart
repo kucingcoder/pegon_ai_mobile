@@ -16,6 +16,7 @@ class History {
 class ReadHistoryController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
   var history =
       History(
         date: '00 Jan 2025',
@@ -38,6 +39,7 @@ class ReadHistoryController extends GetxController {
     final id = Get.parameters['id'];
     id_history.value = id!;
     try {
+      isPro.value = storage.read('category') == 'pro';
       final response = await dio.get(
         '/api/transliterate/history/$id',
         options: Options(

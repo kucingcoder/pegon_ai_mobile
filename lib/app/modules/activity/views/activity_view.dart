@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 
 import '../controllers/activity_controller.dart';
@@ -96,6 +97,11 @@ class ActivityView extends GetView<ActivityController> {
             },
           ),
         );
+      }),
+      bottomNavigationBar: Obx(() {
+        return controller.isPro.value
+            ? const SizedBox.shrink()
+            : const ReusableAdBannerWidget();
       }),
     );
   }

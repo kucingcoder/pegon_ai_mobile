@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 import 'package:pegon_ai_mobile/app/modules/tutorials/controllers/tutorials_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -121,6 +122,14 @@ class TutorialsView extends GetView<TutorialsController> {
                 ),
               ),
               const SizedBox(height: 8),
+              controller.isPro.value
+                  ? const SizedBox.shrink()
+                  : Column(
+                    children: [
+                      const ReusableAdBannerWidget(),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
               Obx(() {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -161,6 +170,11 @@ class TutorialsView extends GetView<TutorialsController> {
             ],
           ),
         );
+      }),
+      bottomNavigationBar: Obx(() {
+        return controller.isPro.value
+            ? const SizedBox.shrink()
+            : const ReusableAdBannerWidget();
       }),
     );
   }

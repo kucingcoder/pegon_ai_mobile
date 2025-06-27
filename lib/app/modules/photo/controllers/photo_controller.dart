@@ -13,6 +13,7 @@ class PhotoController extends GetxController {
 
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
 
   Future<void> startCamera() async {
     final cameras = await availableCameras();
@@ -30,6 +31,7 @@ class PhotoController extends GetxController {
   }
 
   Future<void> stopCamera() async {
+    isPro.value = storage.read('category') == 'pro';
     if (cameraController.value.isInitialized) {
       await cameraController.dispose();
       isCameraReady.value = false;

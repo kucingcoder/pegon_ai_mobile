@@ -21,6 +21,7 @@ class Tutorial {
 class TutorialsController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
+  final isPro = false.obs;
   var tutorials = <Tutorial>[].obs;
   var currentSlide = 0.obs;
 
@@ -39,6 +40,7 @@ class TutorialsController extends GetxController {
 
   Future<void> tutorialList() async {
     try {
+      isPro.value = storage.read('category') == 'pro';
       final response = await dio.get('/api/tutorial/list');
 
       if (response.statusCode == 200) {

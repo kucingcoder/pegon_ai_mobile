@@ -331,6 +331,14 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                     const SizedBox(height: 100),
 
+                    controller.isPro.value
+                        ? const SizedBox.shrink()
+                        : Column(
+                          children: [
+                            const ReusableAdBannerWidget(),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
@@ -343,7 +351,6 @@ class DashboardView extends GetView<DashboardController> {
                             }).toList(),
                       ),
                     ),
-
                     const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 24,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 import 'package:pegon_ai_mobile/app/modules/read_history/controllers/read_history_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -62,6 +63,14 @@ class ReadHistoryView extends GetView<ReadHistoryController> {
                   ),
                 ],
               ),
+              controller.isPro.value
+                  ? const SizedBox.shrink()
+                  : Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      const ReusableAdBannerWidget(),
+                    ],
+                  ),
               const SizedBox(height: 24),
               Text('Result:', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
@@ -80,6 +89,14 @@ class ReadHistoryView extends GetView<ReadHistoryController> {
                 ),
               ),
               const SizedBox(height: 16),
+              controller.isPro.value
+                  ? const SizedBox.shrink()
+                  : Column(
+                    children: [
+                      const ReusableAdBannerWidget(),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
               const Text(
                 'Text Analysis',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -93,6 +110,11 @@ class ReadHistoryView extends GetView<ReadHistoryController> {
             ],
           ),
         );
+      }),
+      bottomNavigationBar: Obx(() {
+        return controller.isPro.value
+            ? const SizedBox.shrink()
+            : const ReusableAdBannerWidget();
       }),
     );
   }

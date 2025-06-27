@@ -59,6 +59,8 @@ class DashboardController extends GetxController {
 
   Future<void> profileGet() async {
     try {
+      isPro.value = storage.read('category') == 'pro';
+
       final response = await dio.get(
         '/api/user/profile',
         options: _buildOptions(),
@@ -85,7 +87,6 @@ class DashboardController extends GetxController {
         );
 
         storage.write('category', data['category']);
-        isPro.value = storage.read('category') == 'pro';
       } else {
         _showSnackbar(
           "Failed",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 import '../controllers/settings_controller.dart';
 
@@ -165,6 +166,14 @@ class SettingsView extends GetView<SettingsController> {
                           return null;
                         },
                       ),
+                      controller.isPro.value
+                          ? const SizedBox.shrink()
+                          : Column(
+                            children: [
+                              const SizedBox(height: 16),
+                              const ReusableAdBannerWidget(),
+                            ],
+                          ),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
@@ -272,6 +281,11 @@ class SettingsView extends GetView<SettingsController> {
             }),
           ),
         ),
+        bottomNavigationBar: Obx(() {
+          return controller.isPro.value
+              ? const SizedBox.shrink()
+              : const ReusableAdBannerWidget();
+        }),
       ),
     );
   }

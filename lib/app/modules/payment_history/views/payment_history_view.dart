@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:pegon_ai_mobile/app/data/reusable_ad_banner_widget.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 
 import '../controllers/payment_history_controller.dart';
@@ -110,6 +111,11 @@ class PaymentHistoryView extends GetView<PaymentHistoryController> {
             },
           ),
         );
+      }),
+      bottomNavigationBar: Obx(() {
+        return controller.isPro.value
+            ? const SizedBox.shrink()
+            : const ReusableAdBannerWidget();
       }),
     );
   }

@@ -11,6 +11,7 @@ class SettingsController extends GetxController {
   final dio = Get.find<ApiService>().dio;
   final storage = GetStorage();
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final isPro = false.obs;
 
   var id = ''.obs;
   var name = ''.obs;
@@ -26,6 +27,8 @@ class SettingsController extends GetxController {
 
   Future<void> fetchProfile() async {
     try {
+      isPro.value = storage.read('category') == 'pro';
+
       final response = await dio.get(
         '/api/user/profile',
         options: Options(
