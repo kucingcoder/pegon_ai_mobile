@@ -22,13 +22,13 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.updateRequestConfiguration(
-    RequestConfiguration(testDeviceIds: ['9D97AB9639EE682299F6209D2D1F6E2C']),
+    RequestConfiguration(testDeviceIds: ['E87B0DBA8F6A2BC544CA072ED77037B9']),
   );
   MobileAds.instance.initialize();
 
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "Pegon AI",
       initialRoute: initroute,
       defaultTransition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 500),
@@ -42,6 +42,7 @@ Future<void> main() async {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Nunito',
       ),
+      debugShowCheckedModeBanner: false,
     ),
   );
 }
