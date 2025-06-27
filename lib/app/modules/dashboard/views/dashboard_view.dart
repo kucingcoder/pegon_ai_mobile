@@ -78,7 +78,7 @@ class DashboardView extends GetView<DashboardController> {
       child: Scaffold(
         appBar: AppBar(backgroundColor: Variabels.orange, toolbarHeight: 20),
         floatingActionButton: Obx(() {
-          if (controller.profile.value?.name != 'Pro') {
+          if (controller.profile.value?.category != 'pro') {
             return FloatingActionButton.extended(
               heroTag: 'upgrade',
               onPressed: () {
@@ -123,7 +123,7 @@ class DashboardView extends GetView<DashboardController> {
               ),
             );
           } else {
-            return const SizedBox.shrink(); // untuk kondisi name == 'Pro'
+            return const SizedBox.shrink();
           }
         }),
         body: DoubleBackToCloseApp(

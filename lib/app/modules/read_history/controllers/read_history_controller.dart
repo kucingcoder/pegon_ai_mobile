@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:pegon_ai_mobile/app/data/admob_service.dart';
 import '../../../data/api_service.dart';
 
 class History {
@@ -31,19 +30,7 @@ class ReadHistoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (storage.read('category') != 'Pro') {
-      createAdBanner();
-    }
     historyInfo();
-  }
-
-  Future<void> createAdBanner() async {
-    banner.value = BannerAd(
-      adUnitId: AdmobService.bannerAdUnitId!,
-      size: AdSize.fullBanner,
-      request: const AdRequest(),
-      listener: AdmobService.bannerAdListener,
-    )..load();
   }
 
   Future<void> historyInfo() async {

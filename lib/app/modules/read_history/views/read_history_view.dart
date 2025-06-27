@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pegon_ai_mobile/app/data/variabels.dart';
 import 'package:pegon_ai_mobile/app/modules/read_history/controllers/read_history_controller.dart';
@@ -63,16 +62,6 @@ class ReadHistoryView extends GetView<ReadHistoryController> {
                   ),
                 ],
               ),
-              if (controller.banner.value != null)
-                SizedBox(
-                  height: 108,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: Center(
-                      child: AdWidget(ad: controller.banner.value!),
-                    ),
-                  ),
-                ),
               const SizedBox(height: 24),
               Text('Result:', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 8),
