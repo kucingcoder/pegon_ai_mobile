@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import '../controllers/plugins_controller.dart';
 
+// ignore: must_be_immutable
 class PluginsView extends GetView<PluginsController> {
   PluginsView({super.key});
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
