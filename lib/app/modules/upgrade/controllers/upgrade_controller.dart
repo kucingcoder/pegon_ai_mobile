@@ -25,13 +25,7 @@ class UpgradeController extends GetxController {
       );
       if (response.statusCode == 201) {
         final data = response.data['data'];
-        Get.toNamed(
-          '/pay',
-          parameters: {
-            "snap_token": data['snap_token'],
-            "payment_id": data['payment_id'],
-          },
-        );
+        Get.toNamed('/pay', parameters: {"snap_token": data['snap_token']});
       } else {
         Get.snackbar(
           'Failed',
