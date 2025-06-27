@@ -42,7 +42,6 @@ Future<void> main() async {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Nunito',
       ),
-      debugShowCheckedModeBanner: false,
     ),
   );
 }
